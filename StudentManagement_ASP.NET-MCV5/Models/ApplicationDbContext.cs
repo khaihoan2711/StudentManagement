@@ -8,6 +8,7 @@ namespace StudentManagement_ASP.NET_MCV5.Models
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {

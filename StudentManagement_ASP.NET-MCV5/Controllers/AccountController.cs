@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
@@ -18,14 +19,32 @@ namespace StudentManagement_ASP.NET_MCV5.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
+        //HoanLK
+        private ApplicationRoleManager _roleManager;
+
+
         public AccountController()
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager, ApplicationRoleManager roleManager )
         {
             UserManager = userManager;
             SignInManager = signInManager;
+            RoleManager = roleManager;
+        }
+
+        //HoanLK
+        public ApplicationRoleManager RoleManager
+        {
+            get
+            {
+                return _roleManager ?? HttpContext.GetOwinContext().Get<ApplicationRoleManager>();
+            }
+            private set
+            {
+                _roleManager = value;
+            }
         }
 
         public ApplicationSignInManager SignInManager
@@ -139,6 +158,14 @@ namespace StudentManagement_ASP.NET_MCV5.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
+            //HoanLK
+            List<SelectListItem> list = new List<SelectListItem>();
+            foreach (var item in RoleManager.Roles)
+            {
+                list.Add(new SelectListItem() { Text = item.Name, Value = item.Name });
+            }
+            ViewBag.Roles = list;
+
             return View();
         }
 
@@ -151,11 +178,15 @@ namespace StudentManagement_ASP.NET_MCV5.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Address = model.Address, BirthDay = model.BirthDay};
+                var result1 = await UserManager.CreateAsync(user, model.Password);
+                var result2 = await UserManager.AddToRoleAsync(user.Id, model.Role);
+
+                if (result1.Succeeded && result2.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+                    
+                    //HoanLK: Do not auto sign in after register user
+                    //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
@@ -163,9 +194,10 @@ namespace StudentManagement_ASP.NET_MCV5.Controllers
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    return RedirectToAction("Index", "Home");
+                    return View("AddUserSuccessfully");
                 }
-                AddErrors(result);
+                AddErrors(result1);
+                AddErrors(result2);
             }
 
             // If we got this far, something failed, redisplay form

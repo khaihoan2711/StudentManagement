@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace StudentManagement_ASP.NET_MCV5.Models
@@ -6,7 +7,7 @@ namespace StudentManagement_ASP.NET_MCV5.Models
     public class ExternalLoginConfirmationViewModel
     {
         [Required]
-        [Display(Name = "Email")]
+        [Display(Name = "Email(Account)")]
         public string Email { get; set; }
     }
 
@@ -70,7 +71,7 @@ namespace StudentManagement_ASP.NET_MCV5.Models
         public string Email { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.<br>Contain at least: 1 non-letter or digit, 1 digit, 1 Upper case, 1 Lower case", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
@@ -79,6 +80,20 @@ namespace StudentManagement_ASP.NET_MCV5.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        [Required]
+        [Display(Name = "Account type:")]
+        public string Role { get; set; }
+
+        [Required]
+        [DataType(DataType.Date)]
+        [Display(Name = "Birth Day")]
+        public DateTime BirthDay { get; set; }
+
+        [Required]
+        [Display(Name = "Address")]
+        public string Address { get; set; }
+
     }
 
     public class ResetPasswordViewModel
