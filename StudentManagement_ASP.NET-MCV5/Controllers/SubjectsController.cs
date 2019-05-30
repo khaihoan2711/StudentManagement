@@ -52,7 +52,7 @@ namespace StudentManagement_ASP.NET_MCV5.Controllers
         {
             if (ModelState.IsValid)
             {
-                subject.Id = CalcSubjectId();
+                subject.Id = CreateNewSubjectId();
                 db.Subjects.Add(subject);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
@@ -61,7 +61,7 @@ namespace StudentManagement_ASP.NET_MCV5.Controllers
             return View(subject);
         }
 
-        private string CalcSubjectId()
+        private string CreateNewSubjectId()
         {
             var maxId = db.Subjects.Max(x => x.Id);
             return (Convert.ToInt16(maxId) + 1).ToString("0000");

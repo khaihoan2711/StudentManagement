@@ -65,6 +65,27 @@ namespace StudentManagement_ASP.NET_MCV5.Models
 
     public class RegisterViewModel
     {
+
+        [Required]
+        [EmailAddress]
+        [Display(Name = "First name")]
+        public string FirstName { get; set; }
+        
+        [Required]
+        [EmailAddress]
+        [Display(Name = "Last name")]
+        public string LastName { get; set; }
+
+        [Required]
+        [EmailAddress]
+        [Display(Name = "User name")]
+        public string UserName { get; set; }
+
+        [Required]
+        [EmailAddress]
+        [Display(Name = "Enrollment Date")]        
+        public DateTime EnrollmentDate { get; set; }
+
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]
@@ -84,6 +105,10 @@ namespace StudentManagement_ASP.NET_MCV5.Models
         [Required]
         [Display(Name = "Account type:")]
         public string Role { get; set; }
+        
+        [Required]
+        [Display(Name = "Faculty")]
+        public string FacultyId { get; set; }
 
         [Required]
         [DataType(DataType.Date)]

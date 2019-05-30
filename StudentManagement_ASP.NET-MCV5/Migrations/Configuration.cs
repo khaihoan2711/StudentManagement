@@ -7,6 +7,7 @@ namespace StudentManagement_ASP.NET_MCV5.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
     using System.Web.Security;
+    using StudentManagement_ASP.NET_MCV5.Models;
 
     internal sealed class Configuration : DbMigrationsConfiguration<StudentManagement_ASP.NET_MCV5.Models.ApplicationDbContext>
     {
@@ -23,17 +24,14 @@ namespace StudentManagement_ASP.NET_MCV5.Migrations
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
             //  to avoid creating duplicate seed data.
 
-            //HoanLK init default data for table Roles in DB
-            List<IdentityRole> roles = new List<IdentityRole>();
-            roles.Add(new IdentityRole("Administrator"));
-            roles.Add(new IdentityRole("Student"));
-            roles.Add(new IdentityRole("Lecturer"));                        
-            foreach (var role in roles)
+            //HoanLK init default data for table Roles in DB                
+            foreach (var role in Enum.GetNames(typeof(ApplicationRole)))
             {
-                var dbRoles = context.Roles.Where(c => c.Name == role.Name).FirstOrDefault();
+                IdentityRole identityRole = new IdentityRole(role.ToString());
+                var dbRoles = context.Roles.Where(c => c.Name == identityRole.Name).FirstOrDefault();
                 if (dbRoles is null)
                 {
-                    context.Roles.AddOrUpdate(role);
+                    context.Roles.AddOrUpdate(identityRole);
                 }
             }
         }
