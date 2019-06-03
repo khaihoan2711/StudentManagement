@@ -1,0 +1,42 @@
+﻿@model StudentManagement_ASP.NET_MCV5.Models.Faculty
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Faculty</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Dean)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Dean)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AssociateDean)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AssociateDean)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

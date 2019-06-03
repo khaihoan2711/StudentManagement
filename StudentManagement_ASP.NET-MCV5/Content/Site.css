@@ -22,3 +22,40 @@ select,
 textarea {
     max-width: 280px;
 }
+
+#header-icon {
+    display: inline-block;
+    vertical-align: middle;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+#header-text {
+    display: inline-block;
+    vertical-align: middle;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.article-title{
+    font-size: large;
+}
+
+#content-block {
+    display: -webkit-flex;
+    -webkit-align-items: center;
+}
+
+#content-block img {
+    width: 15%;
+    display: inline-block;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding-right: 10px;
+}
+
+#content-block p {
+    width: 78%;
+    display: inline-block;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}

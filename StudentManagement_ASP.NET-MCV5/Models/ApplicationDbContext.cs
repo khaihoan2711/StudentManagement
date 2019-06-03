@@ -12,6 +12,7 @@ namespace StudentManagement_ASP.NET_MCV5.Models
         public DbSet<Subject> Subjects { get; set; }
         public DbSet<Student> Students { get; set; }
         public DbSet<Faculty> Faculties { get; set; }
+        public DbSet<Lecturer> Lecturers { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)

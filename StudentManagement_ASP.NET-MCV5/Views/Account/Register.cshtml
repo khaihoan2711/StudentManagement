@@ -20,7 +20,6 @@
         </div>
     </div>
 
-
     <div class="form-group">
         @Html.LabelFor(m => m.LastName, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
@@ -28,7 +27,7 @@
             @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger" })
         </div>
     </div>
-    
+
     <div class="form-group">
         @Html.LabelFor(m => m.UserName, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
@@ -78,8 +77,32 @@
     <div class="form-group">
         @Html.LabelFor(m => m.Role, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.DropDownListFor(m => m.Role, new SelectList(ViewBag.Roles, "Text", "Value"), new { @class = "form-control" })
+            @Html.DropDownListFor(m => m.Role, new SelectList(ViewBag.Roles, "Text", "Value"), new { Id = "role", @class = "form-control", onchange = "OnRoleChange()" })
             @Html.ValidationMessageFor(m => m.Role, "", new { @class = "help-block" })
+        </div>
+    </div>
+
+    <div class="form-group" id="EnrollmentDateGroup" style="display:none">
+        @Html.LabelFor(m => m.EnrollmentDate, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.EnrollmentDate, new { @class = "form-control", type = "Date" })
+            @Html.ValidationMessageFor(m => m.EnrollmentDate, "", new { @class = "help-block" })
+        </div>
+    </div>
+
+    <div class="form-group" id="HireDateGroup" style="display:none">
+        @Html.LabelFor(m => m.HireDate, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.HireDate, new { @class = "form-control", type = "Date" })
+            @Html.ValidationMessageFor(m => m.HireDate, "", new { @class = "help-block" })
+        </div>
+    </div>
+
+    <div class="form-group" id="FacultyIdGroup" style="display:none">
+        @Html.LabelFor(m => m.FacultyId, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.FacultyId, new SelectList(ViewBag.Faculties, "Value", "Text"), new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.FacultyId, "", new { @class = "help-block" })
         </div>
     </div>
 
@@ -90,7 +113,32 @@
     </div>
 }
 
+<script>
+    function OnRoleChange() {
 
+        var x = document.getElementById("role");
+        if (x.value == "Administrator") {
+            document.getElementById("EnrollmentDateGroup").style.display = "none";
+            document.getElementById("HireDateGroup").style.display = "none";
+            document.getElementById("FacultyIdGroup").style.display = "none";
+        }
+        else if (x.value == "Student") {
+            document.getElementById("EnrollmentDateGroup").style.display = "block";
+            document.getElementById("HireDateGroup").style.display = "none";
+            document.getElementById("FacultyIdGroup").style.display = "none";
+        }
+        else if (x.value == "Lecturer") {
+            document.getElementById("EnrollmentDateGroup").style.display = "none";
+            document.getElementById("HireDateGroup").style.display = "block";
+            document.getElementById("FacultyIdGroup").style.display = "block";
+        }
+        else {
+            document.getElementById("EnrollmentDateGroup").style.display = "none";
+            document.getElementById("HireDateGroup").style.display = "none";
+            document.getElementById("FacultyIdGroup").style.display = "none";
+        }
+    }
+</script>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

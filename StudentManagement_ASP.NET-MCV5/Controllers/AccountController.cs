@@ -139,13 +139,22 @@ namespace StudentManagement_ASP.NET_MCV5.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            //HoanLK
-            List<SelectListItem> list = new List<SelectListItem>();
+            //HoanLK Get Roles
+            List<SelectListItem> roles = new List<SelectListItem>();
             foreach (Microsoft.AspNet.Identity.EntityFramework.IdentityRole item in RoleManager.Roles)
             {
-                list.Add(new SelectListItem() { Text = item.Name, Value = item.Name });
+                roles.Add(new SelectListItem() { Text = item.Name, Value = item.Name });
             }
-            ViewBag.Roles = list;
+            ViewBag.Roles = roles;
+
+
+            //HoanLK Get Faculty
+            List<SelectListItem> faculties = new List<SelectListItem>();
+            foreach (Faculty item in db.Faculties.ToList())
+            {
+                faculties.Add(new SelectListItem() { Text = item.Name, Value = item.Id });
+            }
+            ViewBag.Faculties = faculties;
 
             return View();
         }
@@ -159,34 +168,52 @@ namespace StudentManagement_ASP.NET_MCV5.Controllers
         {
             if (ModelState.IsValid)
             {
-                ApplicationUser user = new ApplicationUser
-                {
-                    FirstName = model.FirstName,
-                    LastName = model.LastName,
-                    UserName = model.UserName,
-                    Email = model.Email,
-                    Address = model.Address,
-                    BirthDay = model.BirthDay,
-                };
                 IdentityResult result = null;
                 Enum.TryParse<ApplicationRole>(model.Role, out ApplicationRole userRole);
                 switch (userRole)
                 {
                     case ApplicationRole.Administrator:
+                        ApplicationUser user = new ApplicationUser()
+                        {
+                            Address = model.Address,
+                            BirthDay = model.BirthDay,
+                            Email = model.Email,
+                            FirstName = model.FirstName,
+                            LastName = model.LastName,
+                            UserName = model.UserName
+                        };
                         result = await UserManager.CreateAsync(user, model.Password);
                         if (result.Succeeded) { result = await UserManager.AddToRoleAsync(user.Id, model.Role); }
                         break;
                     case ApplicationRole.Student:
-                        Student student = (Student)user;
-                        student.EnrollmentDate = model.EnrollmentDate;
+                        Student student = new Student()
+                        {
+                            Address = model.Address,
+                            BirthDay = model.BirthDay,
+                            Email = model.Email,
+                            FirstName = model.FirstName,
+                            LastName = model.LastName,
+                            UserName = model.UserName,
+                            EnrollmentDate = model.EnrollmentDate
+                        };
                         student.StudentId = GetNewStudentId();
 
                         result = await UserManager.CreateAsync(student, model.Password);
                         if (result.Succeeded) { result = await UserManager.AddToRoleAsync(student.Id, model.Role); }
                         break;
                     case ApplicationRole.Lecturer:
-                        Lecturer lecturer = (Lecturer)user;
-                        lecturer.FacultyId = model.FacultyId;
+
+                        Lecturer lecturer = new Lecturer()
+                        {
+                            Address = model.Address,
+                            BirthDay = model.BirthDay,
+                            Email = model.Email,
+                            FirstName = model.FirstName,
+                            LastName = model.LastName,
+                            UserName = model.UserName,
+                            HireDate = model.HireDate,
+                            FacultyId = model.FacultyId
+                        };
                         lecturer.LecturerId = GetNewStudentId();
 
                         result = await UserManager.CreateAsync(lecturer, model.Password);
@@ -215,6 +242,22 @@ namespace StudentManagement_ASP.NET_MCV5.Controllers
             }
 
             // If we got this far, something failed, redisplay form
+            //HoanLK Get Roles
+            List<SelectListItem> roles = new List<SelectListItem>();
+            foreach (Microsoft.AspNet.Identity.EntityFramework.IdentityRole item in RoleManager.Roles)
+            {
+                roles.Add(new SelectListItem() { Text = item.Name, Value = item.Name });
+            }
+            ViewBag.Roles = roles;
+
+
+            //HoanLK Get Faculty
+            List<SelectListItem> faculties = new List<SelectListItem>();
+            foreach (Faculty item in db.Faculties.ToList())
+            {
+                faculties.Add(new SelectListItem() { Text = item.Name, Value = item.Id });
+            }
+            ViewBag.Faculties = faculties;
             return View(model);
         }
 
