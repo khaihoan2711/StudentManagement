@@ -78,10 +78,11 @@ namespace StudentManagement_ASP.NET_MCV5.Models
         public string UserName { get; set; }
                 
         [Display(Name = "Enrollment Date")]
-        public DateTime EnrollmentDate { get; set; }
+        public DateTime? EnrollmentDate { get; set; }
 
+        [DataType(DataType.Date)]
         [Display(Name = "Hire Date")]
-        public DateTime HireDate { get; set; }
+        public DateTime? HireDate { get; set; }
 
         [Required]
         [EmailAddress]
@@ -110,7 +111,7 @@ namespace StudentManagement_ASP.NET_MCV5.Models
         [Required]
         [DataType(DataType.Date)]
         [Display(Name = "Birth Day")]
-        public DateTime BirthDay { get; set; }
+        public DateTime? BirthDay { get; set; }
 
         [Required]
         [Display(Name = "Address")]

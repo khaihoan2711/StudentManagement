@@ -1,9 +1,5 @@
 ﻿using Microsoft.AspNet.Identity.EntityFramework;
-using System;
-using System.Collections.Generic;
 using System.Data.Entity;
-using System.Linq;
-using System.Web;
 
 namespace StudentManagement_ASP.NET_MCV5.Models
 {
@@ -13,6 +9,7 @@ namespace StudentManagement_ASP.NET_MCV5.Models
         public DbSet<Student> Students { get; set; }
         public DbSet<Faculty> Faculties { get; set; }
         public DbSet<Lecturer> Lecturers { get; set; }
+        public DbSet<Class> Classes { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
@@ -23,5 +20,6 @@ namespace StudentManagement_ASP.NET_MCV5.Models
         {
             return new ApplicationDbContext();
         }
+        
     }
 }

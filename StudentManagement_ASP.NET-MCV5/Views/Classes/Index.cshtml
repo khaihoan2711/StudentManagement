@@ -1,0 +1,190 @@
+﻿@model IEnumerable<StudentManagement_ASP.NET_MCV5.Models.Class>
+
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>In progress classes</h2>
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayName("Faculty")
+        </th>
+        <th>
+            @Html.DisplayName("Lecturer")
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SchoolYear)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DegreeLevel)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TypeOfEducation)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        if (item.IsFinished == false && item.IsDeleted == false)
+        {
+
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Faculty.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Lecturer.FirstName) @Html.DisplayFor(modelItem => item.Lecturer.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SchoolYear)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DegreeLevel)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TypeOfEducation)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
+    }
+
+</table>
+
+<h2>Finished classes</h2>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayName("Faculty")
+        </th>
+        <th>
+            @Html.DisplayName("Lecturer")
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SchoolYear)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DegreeLevel)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TypeOfEducation)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        if (item.IsFinished == true && item.IsDeleted == false)
+        {
+
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Faculty.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Lecturer.FirstName) @Html.DisplayFor(modelItem => item.Lecturer.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SchoolYear)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DegreeLevel)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TypeOfEducation)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
+    }
+
+</table>
+
+@if (User.IsInRole("Administrator"))
+{
+    <h2>Deleted classes</h2>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayName("Faculty")
+            </th>
+            <th>
+                @Html.DisplayName("Lecturer")
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SchoolYear)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DegreeLevel)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TypeOfEducation)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            if (item.IsDeleted == true)
+            {
+
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Faculty.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Lecturer.FirstName) @Html.DisplayFor(modelItem => item.Lecturer.LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SchoolYear)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DegreeLevel)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TypeOfEducation)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                        @Html.ActionLink("Restore", "Restore", new { id = item.Id })
+                    </td>
+                </tr>
+            }
+        }
+
+    </table>
+}

@@ -3,10 +3,30 @@ namespace StudentManagement_ASP.NET_MCV5.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class InitDatabase : DbMigration
+    public partial class InitDB : DbMigration
     {
         public override void Up()
         {
+            CreateTable(
+                "dbo.Classes",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Name = c.String(),
+                        FacultyId = c.String(maxLength: 128),
+                        LecturerId = c.String(maxLength: 128),
+                        SchoolYear = c.String(),
+                        DegreeLevel = c.Int(nullable: false),
+                        TypeOfEducation = c.Int(nullable: false),
+                        IsFinished = c.Boolean(nullable: false),
+                        IsDeleted = c.Boolean(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.AspNetUsers", t => t.LecturerId)
+                .ForeignKey("dbo.Faculties", t => t.FacultyId)
+                .Index(t => t.FacultyId)
+                .Index(t => t.LecturerId);
+            
             CreateTable(
                 "dbo.Faculties",
                 c => new
@@ -15,6 +35,7 @@ namespace StudentManagement_ASP.NET_MCV5.Migrations
                         Name = c.String(),
                         Dean = c.String(),
                         AssociateDean = c.String(),
+                        IsDeleted = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
             
@@ -23,7 +44,7 @@ namespace StudentManagement_ASP.NET_MCV5.Migrations
                 c => new
                     {
                         Id = c.String(nullable: false, maxLength: 128),
-                        BirthDay = c.DateTime(nullable: false),
+                        BirthDay = c.DateTime(),
                         Address = c.String(),
                         FirstName = c.String(),
                         LastName = c.String(),
@@ -41,6 +62,7 @@ namespace StudentManagement_ASP.NET_MCV5.Migrations
                         LecturerId = c.String(),
                         HireDate = c.DateTime(),
                         FacultyId = c.String(maxLength: 128),
+                        IsDeleted = c.Boolean(),
                         StudentId = c.String(),
                         EnrollmentDate = c.DateTime(),
                         Discriminator = c.String(nullable: false, maxLength: 128),
@@ -109,6 +131,19 @@ namespace StudentManagement_ASP.NET_MCV5.Migrations
                     })
                 .PrimaryKey(t => t.Id);
             
+            CreateTable(
+                "dbo.StudentClasses",
+                c => new
+                    {
+                        Student_Id = c.String(nullable: false, maxLength: 128),
+                        Class_Id = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => new { t.Student_Id, t.Class_Id })
+                .ForeignKey("dbo.AspNetUsers", t => t.Student_Id, cascadeDelete: true)
+                .ForeignKey("dbo.Classes", t => t.Class_Id, cascadeDelete: true)
+                .Index(t => t.Student_Id)
+                .Index(t => t.Class_Id);
+            
         }
         
         public override void Down()
@@ -117,7 +152,13 @@ namespace StudentManagement_ASP.NET_MCV5.Migrations
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
+            DropForeignKey("dbo.StudentClasses", "Class_Id", "dbo.Classes");
+            DropForeignKey("dbo.StudentClasses", "Student_Id", "dbo.AspNetUsers");
+            DropForeignKey("dbo.Classes", "FacultyId", "dbo.Faculties");
             DropForeignKey("dbo.AspNetUsers", "FacultyId", "dbo.Faculties");
+            DropForeignKey("dbo.Classes", "LecturerId", "dbo.AspNetUsers");
+            DropIndex("dbo.StudentClasses", new[] { "Class_Id" });
+            DropIndex("dbo.StudentClasses", new[] { "Student_Id" });
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
@@ -125,6 +166,9 @@ namespace StudentManagement_ASP.NET_MCV5.Migrations
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
             DropIndex("dbo.AspNetUsers", new[] { "FacultyId" });
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
+            DropIndex("dbo.Classes", new[] { "LecturerId" });
+            DropIndex("dbo.Classes", new[] { "FacultyId" });
+            DropTable("dbo.StudentClasses");
             DropTable("dbo.Subjects");
             DropTable("dbo.AspNetRoles");
             DropTable("dbo.AspNetUserRoles");
@@ -132,6 +176,7 @@ namespace StudentManagement_ASP.NET_MCV5.Migrations
             DropTable("dbo.AspNetUserClaims");
             DropTable("dbo.AspNetUsers");
             DropTable("dbo.Faculties");
+            DropTable("dbo.Classes");
         }
     }
 }

@@ -113,7 +113,36 @@ namespace StudentManagement_ASP.NET_MCV5.Controllers
         public async Task<ActionResult> DeleteConfirmed(string id)
         {
             Faculty faculty = await db.Faculties.FindAsync(id);
-            db.Faculties.Remove(faculty);
+            faculty.IsDeleted = true;
+            db.Entry(faculty).State = EntityState.Modified;
+
+            await db.SaveChangesAsync();
+            return RedirectToAction("Index");
+        }
+
+        // GET: Faculties/Restore/5
+        public async Task<ActionResult> Restore(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Faculty faculty = await db.Faculties.FindAsync(id);
+            if (faculty == null)
+            {
+                return HttpNotFound();
+            }
+            return View(faculty);
+        }
+
+        // POST: Faculties/Delete/5
+        [HttpPost, ActionName("Restore")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> RestoreConfirmed(string id)
+        {
+            Faculty faculty = await db.Faculties.FindAsync(id);
+            faculty.IsDeleted = false;
+            db.Entry(faculty).State = EntityState.Modified;
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }

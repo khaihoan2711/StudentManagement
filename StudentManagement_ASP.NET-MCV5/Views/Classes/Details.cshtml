@@ -1,0 +1,75 @@
+﻿@model StudentManagement_ASP.NET_MCV5.Models.Class
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Detail class information </h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Faculty.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Faculty.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Lecturer.FirstName) - @Html.DisplayNameFor(model => model.Lecturer.LastName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Lecturer.FirstName) - @Html.DisplayFor(model => model.Lecturer.LastName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SchoolYear)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SchoolYear)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DegreeLevel)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DegreeLevel)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TypeOfEducation)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TypeOfEducation)
+        </dd>
+
+    </dl>
+</div>
+
+<div>
+    @* Add việc hiển thị thông tin sinh viên ở đây này *@
+</div>
+
+<p>
+    @if (Model.IsDeleted == false && Model.IsFinished == false)
+    {
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) <text> | </text>
+    }
+
+    @Html.ActionLink("Back to List", "Index")
+</p>

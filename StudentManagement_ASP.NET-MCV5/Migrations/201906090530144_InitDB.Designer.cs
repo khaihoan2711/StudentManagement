@@ -7,13 +7,13 @@ namespace StudentManagement_ASP.NET_MCV5.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class InitDatabase : IMigrationMetadata
+    public sealed partial class InitDB : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(InitDatabase));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(InitDB));
         
         string IMigrationMetadata.Id
         {
-            get { return "201905310828365_InitDatabase"; }
+            get { return "201906090530144_InitDB"; }
         }
         
         string IMigrationMetadata.Source

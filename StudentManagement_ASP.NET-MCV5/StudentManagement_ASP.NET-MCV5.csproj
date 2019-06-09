@@ -176,6 +176,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\ClassController.cs" />
     <Compile Include="Controllers\FacultiesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -183,15 +184,17 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201905310828365_InitDatabase.cs" />
-    <Compile Include="Migrations\201905310828365_InitDatabase.Designer.cs">
-      <DependentUpon>201905310828365_InitDatabase.cs</DependentUpon>
+    <Compile Include="Migrations\201906090530144_InitDB.cs" />
+    <Compile Include="Migrations\201906090530144_InitDB.Designer.cs">
+      <DependentUpon>201906090530144_InitDB.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
     <Compile Include="Models\ApplicationRole.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
+    <Compile Include="Models\Class.cs" />
+    <Compile Include="Models\ClassViewModel.cs" />
     <Compile Include="Models\Faculty.cs" />
     <Compile Include="Models\FacultyViewModel.cs" />
     <Compile Include="Models\Lecturer.cs" />
@@ -322,6 +325,13 @@
     <Content Include="Views\Faculties\Details.cshtml" />
     <Content Include="Views\Faculties\Edit.cshtml" />
     <Content Include="Views\Faculties\Index.cshtml" />
+    <Content Include="Views\Faculties\Restore.cshtml" />
+    <Content Include="Views\Classes\Create.cshtml" />
+    <Content Include="Views\Classes\Delete.cshtml" />
+    <Content Include="Views\Classes\Details.cshtml" />
+    <Content Include="Views\Classes\Edit.cshtml" />
+    <Content Include="Views\Classes\Index.cshtml" />
+    <Content Include="Views\Classes\Restore.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -339,8 +349,8 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201905310828365_InitDatabase.resx">
-      <DependentUpon>201905310828365_InitDatabase.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201906090530144_InitDB.resx">
+      <DependentUpon>201906090530144_InitDB.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

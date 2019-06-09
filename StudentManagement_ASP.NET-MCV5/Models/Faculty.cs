@@ -17,6 +17,7 @@ namespace StudentManagement_ASP.NET_MCV5.Models
         public string Dean { get; set; }
         //AssociateDean is an Id from Lecturer
         public string AssociateDean { get; set; }
+        public bool IsDeleted { get; set; }
 
         public virtual ICollection<Lecturer> Lecturers { get; set; }
     }

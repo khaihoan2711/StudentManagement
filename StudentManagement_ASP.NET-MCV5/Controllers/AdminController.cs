@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StudentManagement_ASP.NET_MCV5.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -12,7 +13,15 @@ namespace StudentManagement_ASP.NET_MCV5.Controllers
         [Authorize]
         public ActionResult Index()
         {
-            return View();
+            if (User.IsInRole(ApplicationRole.Administrator.ToString()))
+            {
+                return View();
+            }
+            else
+            {
+                ViewBag.ErrorMessage = "Your account is not qualified to access this page";
+                return View("Error");
+            }
         }
     }
 }
