@@ -16,12 +16,14 @@ namespace StudentManagement_ASP.NET_MCV5.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Faculties
+        [Authorize]
         public async Task<ActionResult> Index()
         {
             return View(await db.Faculties.ToListAsync());
         }
 
         // GET: Faculties/Details/5
+        [Authorize]
         public async Task<ActionResult> Details(string id)
         {
             if (id == null)
@@ -37,6 +39,7 @@ namespace StudentManagement_ASP.NET_MCV5.Controllers
         }
 
         // GET: Faculties/Create
+        [Authorize]
         public ActionResult Create()
         {
             FacultyViewModel facultyViewModel = new FacultyViewModel();
@@ -49,6 +52,7 @@ namespace StudentManagement_ASP.NET_MCV5.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<ActionResult> Create([Bind(Include = "Id,Name,Dean,AssociateDean")] Faculty faculty)
         {
             if (ModelState.IsValid)
@@ -62,6 +66,7 @@ namespace StudentManagement_ASP.NET_MCV5.Controllers
         }
 
         // GET: Faculties/Edit/5
+        [Authorize]
         public async Task<ActionResult> Edit(string id)
         {
             if (id == null)
@@ -81,6 +86,7 @@ namespace StudentManagement_ASP.NET_MCV5.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<ActionResult> Edit([Bind(Include = "Id,Name,Dean,AssociateDean")] Faculty faculty)
         {
             if (ModelState.IsValid)
@@ -93,6 +99,7 @@ namespace StudentManagement_ASP.NET_MCV5.Controllers
         }
 
         // GET: Faculties/Delete/5
+        [Authorize]
         public async Task<ActionResult> Delete(string id)
         {
             if (id == null)
@@ -110,6 +117,7 @@ namespace StudentManagement_ASP.NET_MCV5.Controllers
         // POST: Faculties/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<ActionResult> DeleteConfirmed(string id)
         {
             Faculty faculty = await db.Faculties.FindAsync(id);
@@ -138,6 +146,7 @@ namespace StudentManagement_ASP.NET_MCV5.Controllers
         // POST: Faculties/Delete/5
         [HttpPost, ActionName("Restore")]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<ActionResult> RestoreConfirmed(string id)
         {
             Faculty faculty = await db.Faculties.FindAsync(id);

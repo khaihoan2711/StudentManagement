@@ -10,7 +10,7 @@ namespace StudentManagement_ASP.NET_MCV5.Models
     {
         [Required]
         [Key]
-        public string LecturerId { get; set; }
+        public string LecturerCode { get; set; }
         public virtual ICollection<Class> Classes { get; set; }
 
         public DateTime? HireDate { get; set; }

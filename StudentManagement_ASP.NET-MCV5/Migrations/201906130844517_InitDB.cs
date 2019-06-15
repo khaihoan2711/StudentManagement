@@ -59,11 +59,11 @@ namespace StudentManagement_ASP.NET_MCV5.Migrations
                         LockoutEnabled = c.Boolean(nullable: false),
                         AccessFailedCount = c.Int(nullable: false),
                         UserName = c.String(nullable: false, maxLength: 256),
-                        LecturerId = c.String(),
+                        LecturerCode = c.String(),
                         HireDate = c.DateTime(),
                         FacultyId = c.String(maxLength: 128),
                         IsDeleted = c.Boolean(),
-                        StudentId = c.String(),
+                        StudentCode = c.String(),
                         EnrollmentDate = c.DateTime(),
                         Discriminator = c.String(nullable: false, maxLength: 128),
                     })
@@ -111,6 +111,20 @@ namespace StudentManagement_ASP.NET_MCV5.Migrations
                 .Index(t => t.RoleId);
             
             CreateTable(
+                "dbo.StudentClasses",
+                c => new
+                    {
+                        ClassId = c.Int(nullable: false),
+                        StudentId = c.String(nullable: false, maxLength: 128),
+                        IsDeleted = c.Boolean(nullable: false),
+                    })
+                .PrimaryKey(t => new { t.ClassId, t.StudentId })
+                .ForeignKey("dbo.Classes", t => t.ClassId, cascadeDelete: true)
+                .ForeignKey("dbo.AspNetUsers", t => t.StudentId, cascadeDelete: true)
+                .Index(t => t.ClassId)
+                .Index(t => t.StudentId);
+            
+            CreateTable(
                 "dbo.AspNetRoles",
                 c => new
                     {
@@ -131,19 +145,6 @@ namespace StudentManagement_ASP.NET_MCV5.Migrations
                     })
                 .PrimaryKey(t => t.Id);
             
-            CreateTable(
-                "dbo.StudentClasses",
-                c => new
-                    {
-                        Student_Id = c.String(nullable: false, maxLength: 128),
-                        Class_Id = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => new { t.Student_Id, t.Class_Id })
-                .ForeignKey("dbo.AspNetUsers", t => t.Student_Id, cascadeDelete: true)
-                .ForeignKey("dbo.Classes", t => t.Class_Id, cascadeDelete: true)
-                .Index(t => t.Student_Id)
-                .Index(t => t.Class_Id);
-            
         }
         
         public override void Down()
@@ -152,14 +153,14 @@ namespace StudentManagement_ASP.NET_MCV5.Migrations
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
-            DropForeignKey("dbo.StudentClasses", "Class_Id", "dbo.Classes");
-            DropForeignKey("dbo.StudentClasses", "Student_Id", "dbo.AspNetUsers");
+            DropForeignKey("dbo.StudentClasses", "StudentId", "dbo.AspNetUsers");
+            DropForeignKey("dbo.StudentClasses", "ClassId", "dbo.Classes");
             DropForeignKey("dbo.Classes", "FacultyId", "dbo.Faculties");
             DropForeignKey("dbo.AspNetUsers", "FacultyId", "dbo.Faculties");
             DropForeignKey("dbo.Classes", "LecturerId", "dbo.AspNetUsers");
-            DropIndex("dbo.StudentClasses", new[] { "Class_Id" });
-            DropIndex("dbo.StudentClasses", new[] { "Student_Id" });
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
+            DropIndex("dbo.StudentClasses", new[] { "StudentId" });
+            DropIndex("dbo.StudentClasses", new[] { "ClassId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
@@ -168,9 +169,9 @@ namespace StudentManagement_ASP.NET_MCV5.Migrations
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
             DropIndex("dbo.Classes", new[] { "LecturerId" });
             DropIndex("dbo.Classes", new[] { "FacultyId" });
-            DropTable("dbo.StudentClasses");
             DropTable("dbo.Subjects");
             DropTable("dbo.AspNetRoles");
+            DropTable("dbo.StudentClasses");
             DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.AspNetUserLogins");
             DropTable("dbo.AspNetUserClaims");

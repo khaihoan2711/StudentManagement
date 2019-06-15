@@ -1,0 +1,89 @@
+﻿@model StudentManagement_ASP.NET_MCV5.Models.StudentClass
+
+@{
+    ViewBag.Title = "RemoveStudentFromClass";
+}
+
+<h2>RemoveStudentFromClass</h2>
+
+<h3>Are you sure you want to delete selected student from this class? ID:@Model.Class.Id - Name:@Model.Class.Name?</h3>
+<div>
+
+    <h4>Student</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Student.BirthDay)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Student.BirthDay)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Student.Address)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Student.Address)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Student.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Student.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Student.LastName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Student.LastName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Student.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Student.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Student.UserName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Student.UserName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Student.StudentCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Student.StudentCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Student.EnrollmentDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Student.EnrollmentDate)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Remove" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Details",new { id = Model.ClassId })
+        </div>
+    }
+</div>

@@ -11,7 +11,7 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.DisplayName("Class")
         </dt>
 
         <dd>
@@ -19,7 +19,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Faculty.Name)
+            @Html.DisplayName("Falcuty")
         </dt>
 
         <dd>
@@ -27,7 +27,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Lecturer.FirstName) - @Html.DisplayNameFor(model => model.Lecturer.LastName)
+            @Html.DisplayName("Leccturer")
         </dt>
 
         <dd>
@@ -63,6 +63,102 @@
 
 <div>
     @* Add việc hiển thị thông tin sinh viên ở đây này *@
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <br />
+        <br />
+        <br />
+        <h3>Add Student</h3>
+        <div class="form-horizontal">
+            <hr />
+
+            <div class="form-group">
+                @Html.Label("Student Id", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <input type="text" id="StudentCode" class="form-control" onkeyup="SearchStudent()" />
+                </div>
+            </div>
+
+            <dl class="dl-horizontal">
+                <dt>Name</dt>
+                <dd id="StudentName">N/A</dd>
+
+                <dt>Email</dt>
+                <dd id="StudentEmail">N/A</dd>
+
+                <dt>Birthday</dt>
+                <dd id="StudentBirthday">N/A</dd>
+
+                <dt>Address</dt>
+                <dd id="StudentAddress">N/A</dd>
+            </dl>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="button" value="Add to this class" class="btn btn-default" onclick="AddStudent()" />
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
+
+
+<div>
+    @* Add việc hiển thị thông tin sinh viên ở đây này *@
+    <h3>Student list</h3>
+
+    <table id="tabelStudent" class="table">
+        <tr>
+            <th>
+                @Html.DisplayName("Student name")
+            </th>
+            <th>
+                @Html.DisplayName("Student Code")
+            </th>
+            <th>
+                @Html.DisplayName("Email")
+            </th>
+            <th>
+                @Html.DisplayName("Birthday")
+            </th>
+            <th>
+                @Html.DisplayName("Address")
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model.StudentClass)
+        {
+            if (item.IsDeleted == false)
+            {
+                <tr id="StudentList">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Student.FirstName)  @Html.DisplayFor(modelItem => item.Student.LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Student.StudentCode)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Student.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Student.BirthDay)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Student.Address)
+                    </td>
+                    <td>
+                        @*@Html.ActionLink("Details", "Details", new { id = item.Id }) |*@
+                        @Html.ActionLink("Remove", "RemoveStudentFromClass", new { ClassId = Model.Id, StudentId = item.StudentId })
+                    </td>
+                </tr>
+            }
+        }
+
+    </table>
+
 </div>
 
 <p>
@@ -73,3 +169,65 @@
 
     @Html.ActionLink("Back to List", "Index")
 </p>
+
+
+
+<script>
+
+    var isValidStudent = false;
+
+    function SearchStudent() {
+        var txtStudentCode = document.getElementById("StudentCode");
+        var studentCode = txtStudentCode.value;
+        isValidStudent = false;
+
+        if (studentCode.length != 10) {
+            //Do nothing
+        }
+        else if (studentCode.length == 10) {
+            $.ajax({
+                url: "../GetStudentById/" + studentCode,
+                dataType: 'json',
+                success: function (result) {
+                    //$("#div1").html(result);
+                    var json = $.parseJSON(result);
+                    //alert(json.Name);
+                    $('#StudentName').text(json.Name);
+                    $('#StudentEmail').text(json.Email);
+                    $('#StudentBirthday').text(json.Birthday);
+                    $('#StudentAddress').text(json.Address);
+                    isValidStudent = true;
+                },
+                error: function (result) {
+
+                    $('#StudentName').text('N/A');
+                    $('#StudentEmail').text('N/A');
+                    $('#StudentBirthday').text('N/A');
+                    $('#StudentAddress').text('N/A');
+                }
+            });
+        }
+    }
+
+    function AddStudent() {
+
+        var txtStudentCode = document.getElementById("StudentCode");
+        var studentCode = txtStudentCode.value;
+        var classId = @Model.Id;
+
+        if (isValidStudent == true) {
+            $.ajax({
+                url: "../AddStudentToClass/?"+"StudentCode=" + studentCode +"&"+ "ClassId=" + classId,
+                dataType: 'html',
+                success: function (result) {
+                    var htmlElement = $.parseHTML(result);
+                    $("#tabelStudent tbody").append(result);
+
+                },
+                error: function (result) {
+                    //alert("Error occurred");
+                }
+            });
+        }
+    }
+</script>

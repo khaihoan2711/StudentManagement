@@ -7,16 +7,12 @@ namespace StudentManagement_ASP.NET_MCV5.Models
 {
     public class Student : ApplicationUser
     {
-        public Student()
-        {
-            this.Classes = new HashSet<Class>();
-        }
-
         //Student identity number
         [Required]
         [Key]
-        public string StudentId { get; set; }
+        public string StudentCode { get; set; }
         public DateTime? EnrollmentDate { get; set; }
-        public virtual ICollection<Class> Classes { get; set; }
+
+        public ICollection<StudentClass> StudentClass { get; set; }
     }
 }

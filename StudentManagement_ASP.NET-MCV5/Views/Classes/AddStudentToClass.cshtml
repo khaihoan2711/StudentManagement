@@ -1,0 +1,26 @@
+﻿@model StudentManagement_ASP.NET_MCV5.Models.Student
+@{
+    Layout = null;
+}
+
+<tr id="StudentList">
+    <td>
+        @Html.DisplayFor(model => Model.FirstName)  @Html.DisplayFor(model => Model.LastName)
+    </td>
+    <td>
+        @Html.DisplayFor(model => Model.StudentCode)
+    </td>
+    <td>
+        @Html.DisplayFor(model => Model.Email)
+    </td>
+    <td>
+        @Html.DisplayFor(model => Model.BirthDay)
+    </td>
+    <td>
+        @Html.DisplayFor(model => Model.Address)
+    </td>
+    <td>
+        @*@Html.ActionLink("Details", "Details", new { id = item.Id }) |*@
+        @Html.ActionLink("Remove", "RemoveStudentFromClass", new { ClassId = ViewBag.ClassId, StudentId = Model.Id })
+    </td>
+</tr>

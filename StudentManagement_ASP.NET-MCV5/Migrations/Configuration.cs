@@ -134,7 +134,7 @@ namespace StudentManagement_ASP.NET_MCV5.Migrations
                         LastName = "1",
                         UserName = "lecturer@gmail.com",
                         HireDate = DateTime.Now,
-                        LecturerId = "0000000001"
+                        LecturerCode = "0000000001"
                     };
 
                     manager.Create(user, "123Aa.");
@@ -156,6 +156,12 @@ namespace StudentManagement_ASP.NET_MCV5.Migrations
                         dbContext.Classes.Add(item);
                     }
                 }
+                dbContext.SaveChanges();
+
+                if (!System.Diagnostics.Debugger.IsAttached)
+                {
+                    System.Diagnostics.Debugger.Launch();
+                }
 
                 //HoanLK Add default user(student) account
                 if (!dbContext.Users.Any(u => u.UserName == "student@gmail.com"))
@@ -168,17 +174,25 @@ namespace StudentManagement_ASP.NET_MCV5.Migrations
                         Address = "Ho Chi Minh City",
                         BirthDay = DateTime.Now,
                         Email = "student@gmail.com",
-                        FirstName = "studen",
+                        FirstName = "student",
                         LastName = "1",
                         UserName = "student@gmail.com",
                         EnrollmentDate = DateTime.Now,
-                        StudentId = "0000000002"
+                        StudentCode = "0000000002"
                     };
-
-                    user.Classes.Add(Classes[0]);
 
                     manager.Create(user, "123Aa.");
                     manager.AddToRole(user.Id, ApplicationRole.Administrator.ToString());
+                    dbContext.SaveChanges();
+
+                    int tmpClassId = dbContext.Classes.FirstOrDefault().Id;
+                    Console.WriteLine(tmpClassId);
+                    Console.WriteLine(user.Id);
+                    dbContext.StudentClasses.Add(new StudentClass()
+                    {
+                        StudentId = user.Id,
+                        ClassId = tmpClassId
+                    });
                 }
 
                 dbContext.SaveChanges();

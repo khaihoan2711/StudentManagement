@@ -16,6 +16,7 @@ namespace StudentManagement_ASP.NET_MCV5.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Subjects
+        [Authorize]
         public async Task<ActionResult> Index()
         {
             return View(await db.Subjects.ToListAsync());
@@ -23,6 +24,7 @@ namespace StudentManagement_ASP.NET_MCV5.Controllers
         }
 
         // GET: Subjects/Details/5
+        [Authorize]
         public async Task<ActionResult> Details(string id)
         {
             if (id == null)
@@ -38,6 +40,7 @@ namespace StudentManagement_ASP.NET_MCV5.Controllers
         }
 
         // GET: Subjects/Create
+        [Authorize]
         public ActionResult Create()
         {
             return View();
@@ -48,6 +51,7 @@ namespace StudentManagement_ASP.NET_MCV5.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<ActionResult> Create([Bind(Include = "Name,Description")] Subject subject)
         {
             if (ModelState.IsValid)
@@ -68,6 +72,7 @@ namespace StudentManagement_ASP.NET_MCV5.Controllers
         }
 
         // GET: Subjects/Edit/5
+        [Authorize]
         public async Task<ActionResult> Edit(string id)
         {
             if (id == null)
@@ -87,6 +92,7 @@ namespace StudentManagement_ASP.NET_MCV5.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<ActionResult> Edit([Bind(Include = "Id,Name,Description")] Subject subject)
         {
             if (ModelState.IsValid)
@@ -99,6 +105,7 @@ namespace StudentManagement_ASP.NET_MCV5.Controllers
         }
 
         // GET: Subjects/Delete/5
+        [Authorize]
         public async Task<ActionResult> Delete(string id)
         {
             if (id == null)
@@ -116,6 +123,7 @@ namespace StudentManagement_ASP.NET_MCV5.Controllers
         // POST: Subjects/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<ActionResult> DeleteConfirmed(string id)
         {
             //HoanLK: Do not permanently delete subject, only mark flag in DB
@@ -128,6 +136,7 @@ namespace StudentManagement_ASP.NET_MCV5.Controllers
         }
 
         // GET: Subjects/Delete/5
+        [Authorize]
         public async Task<ActionResult> Restore(string id)
         {
             if (id == null)
@@ -145,6 +154,7 @@ namespace StudentManagement_ASP.NET_MCV5.Controllers
         // POST: Subjects/Delete/5
         [HttpPost, ActionName("Restore")]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<ActionResult> RestoreConfirmed(string id)
         {
             //HoanLK: Do not permanently delete subject, only mark flag in DB

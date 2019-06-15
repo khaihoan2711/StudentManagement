@@ -196,7 +196,7 @@ namespace StudentManagement_ASP.NET_MCV5.Controllers
                             UserName = model.UserName,
                             EnrollmentDate = model.EnrollmentDate
                         };
-                        student.StudentId = GetNewStudentOrLecturerId();
+                        student.StudentCode = GetNewStudentOrLecturerId();
 
                         result = await UserManager.CreateAsync(student, model.Password);
                         if (result.Succeeded) { result = await UserManager.AddToRoleAsync(student.Id, model.Role); }
@@ -214,7 +214,7 @@ namespace StudentManagement_ASP.NET_MCV5.Controllers
                             HireDate = model.HireDate,
                             FacultyId = model.FacultyId
                         };
-                        lecturer.LecturerId = GetNewStudentOrLecturerId();
+                        lecturer.LecturerCode = GetNewStudentOrLecturerId();
 
                         result = await UserManager.CreateAsync(lecturer, model.Password);
                         if (result.Succeeded) { result = await UserManager.AddToRoleAsync(lecturer.Id, model.Role); }
@@ -263,7 +263,7 @@ namespace StudentManagement_ASP.NET_MCV5.Controllers
 
         private string GetNewStudentOrLecturerId()
         {
-            string maxId = db.Students.Max(x => x.StudentId);
+            string maxId = db.Students.Max(x => x.StudentCode);
             return (Convert.ToInt16(maxId) + 1).ToString("0000000000");
         }
 
