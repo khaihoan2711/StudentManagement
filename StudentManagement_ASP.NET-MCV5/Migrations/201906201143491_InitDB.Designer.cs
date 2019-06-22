@@ -13,7 +13,7 @@ namespace StudentManagement_ASP.NET_MCV5.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201906130844517_InitDB"; }
+            get { return "201906201143491_InitDB"; }
         }
         
         string IMigrationMetadata.Source

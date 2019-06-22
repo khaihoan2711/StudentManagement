@@ -21,5 +21,8 @@ namespace StudentManagement_ASP.NET_MCV5.Models
             // Add custom user claims here
             return userIdentity;
         }
+
+        public string FullName => FirstName + " " + LastName;
+
     }
 }
